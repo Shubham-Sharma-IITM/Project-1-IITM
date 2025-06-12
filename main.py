@@ -4,6 +4,7 @@ from typing import Optional, List
 import base64
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import httpx
 
 app = FastAPI()
 app.add_middleware(
@@ -28,7 +29,12 @@ class AnswerResponse(BaseModel):
     answer: str
     links: List[Link]
 
-token = os.getenv("AI_PIPE_TOKEN") 
+token = os.getenv("AI_PIPE_TOKEN")
+url = "https://aipipe.org/openai/v1/chat/completions"
+headers = {
+    "Authorization": f"Bearer {token}",
+    "Content-Type": "application/json"
+}
 
 
 @app.post("/api/", response_model=AnswerResponse)
@@ -36,8 +42,21 @@ async def receive_question(data: RequestData):
     question = data.question
     image_data = data.image
     print("Checking token", token)
+    payload = {
+        "model": "gpt-3.5-turbo-0125",
+        "messages": [
+            {"role": "user", "content": question}
+        ],
+        "temperature": 0.7
+    }
+    response = httpx.post(url, headers=headers, json=payload)
+    data
 
-    # You can later plug in actual model logic here. For now, dummy response.
+    if response.status_code == 200:
+        data = response.json()
+        print("AI Response:", data['choices'][0]['message']['content'])
+    else:
+        print("Error:", response.status_code, response.text)
     if image_data:
         try:
             _ = base64.b64decode(image_data)
@@ -46,7 +65,7 @@ async def receive_question(data: RequestData):
 
     # This is a hardcoded mock answer - you can replace it with AI model logic
     return AnswerResponse(
-        answer="You must use `gpt-3.5-turbo-0125`, even if the AI Proxy only supports `gpt-4o-mini`. Use the OpenAI API directly for this question.",
+        answer=data['choices'][0]['message']['content'],
         links=[
             {
                 "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/4",
