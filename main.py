@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 import base64
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 app = FastAPI()
 app.add_middleware(
@@ -27,11 +28,14 @@ class AnswerResponse(BaseModel):
     answer: str
     links: List[Link]
 
+token = os.getenv("AI_PIPE_TOKEN") 
+
 
 @app.post("/api/", response_model=AnswerResponse)
 async def receive_question(data: RequestData):
     question = data.question
     image_data = data.image
+    print("Checking token", token)
 
     # You can later plug in actual model logic here. For now, dummy response.
     if image_data:
