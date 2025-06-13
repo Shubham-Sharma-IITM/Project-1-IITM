@@ -43,7 +43,7 @@ async def receive_question(data: RequestData):
     image_data = data.image
     print("Checking token", token)
     payload = {
-        "model": "gpt-3.5-turbo-0125",
+        "model": "gpt-4o-mini",
         "messages": [
             {"role": "user", "content": question}
         ],
@@ -54,6 +54,7 @@ async def receive_question(data: RequestData):
 
     if response.status_code == 200:
         data = response.json()
+        print(data)
         print("AI Response:", data['choices'][0]['message']['content'])
     else:
         print("Error:", response.status_code, response.text)
