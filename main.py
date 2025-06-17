@@ -38,7 +38,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-data = np.load("embeddingsss.npz", allow_pickle=True)
+data = np.load("embeddingsss.npz", allow_pickle=True, mmap_mode='r')
 chunks = data["chunks"]
 embeddings = data["embeddings"]
 chunk_data = [
@@ -85,13 +85,8 @@ def generate_answer_from_chunks(query: str, context_chunks: List[str]) -> str:
         raise Exception(f"Chat failed: {response.text}")
     return response.json()["choices"][0]["message"]["content"].strip()
 
-def extract_chunk_info(chunks, sidebar_path="_sidebar.md"):
-    with open(sidebar_path, 'r', encoding='utf-8') as f:
-        sidebar_content = f.read()
-
+def extract_chunk_info(chunks):
     result = []
-    url_base = "https://tds.s-anand.net/#/"
-
     for chunk in chunks:
         chunk_str = str(chunk)
         entry = {"text": "", "url": ""}
@@ -100,17 +95,6 @@ def extract_chunk_info(chunks, sidebar_path="_sidebar.md"):
         if post_url_match:
             entry["url"] = post_url_match.group(1)
             entry["text"] = chunk_str.replace("\n", " ").split("[Post URL]")[0].strip()
-        else:
-            heading_match = re.search(r"^##\s+(.+)", chunk_str)
-            if heading_match:
-                heading_text = heading_match.group(1).strip()
-                pattern = re.escape(f"[{heading_text}]") + r"\(([^)]+\.md)\)"
-                sidebar_match = re.search(pattern, sidebar_content)
-                if sidebar_match:
-                    md_file = sidebar_match.group(1).strip()
-                    url_path = md_file.replace(".md", "")
-                    entry["url"] = f"{url_base}{url_path}"
-            entry["text"] = chunk_str.replace("\n", " ").strip()
 
         result.append(entry)
     return result
