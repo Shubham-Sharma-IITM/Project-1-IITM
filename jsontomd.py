@@ -25,14 +25,14 @@ def convert_json_to_md(json_folder):
 
                 md_lines.append(text)
                 if url:
-                    md_lines.append(f"\n🔗 [Post URL]({url})\n")
+                    md_lines.append(f"\n [Post URL]({url})\n")
 
                 if isinstance(images, list) and images:
-                    md_lines.append("\n### 🖼️ Image Descriptions:\n")
+                    md_lines.append("\n### Image Descriptions:\n")
                     for idx, desc in enumerate(images, 1):
                         md_lines.append(f"- {desc.strip()}")
                 elif isinstance(images, str):
-                    md_lines.append(f"\n### 🖼️ Image Description:\n- {images.strip()}")
+                    md_lines.append(f"\n### Image Description:\n- {images.strip()}")
 
                 md_lines.append("\n---\n")
 

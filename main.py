@@ -43,7 +43,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-data = np.load("embeddings.npz", allow_pickle=True)
+data = np.load("embeddingsss.npz", allow_pickle=True)
 
 chunks = data["chunks"]
 embeddings = data["embeddings"]

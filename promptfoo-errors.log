@@ -1,0 +1,10 @@
+2025-06-17T21:27:55.510Z [ERROR]: Error running database migrations: Error: The module '\\?\C:\Users\shris\AppData\Local\npm-cache\_npx\1ddbeaccabfe00a4\node_modules\better-sqlite3\build\Release\better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 108. This version of Node.js requires
+NODE_MODULE_VERSION 115. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+2025-06-17T21:27:56.547Z [ERROR]: Error running database migrations: Error: The module '\\?\C:\Users\shris\AppData\Local\npm-cache\_npx\1ddbeaccabfe00a4\node_modules\better-sqlite3\build\Release\better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 108. This version of Node.js requires
+NODE_MODULE_VERSION 115. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).

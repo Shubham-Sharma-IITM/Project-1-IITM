@@ -59,6 +59,6 @@ for topic in data.get("topics", []):
         all_posts.extend(chunk_json.get("post_stream", {}).get("posts", []))
 
     # Step 3: Save merged posts to file
-    filepath = os.path.join("posts", f"{slug}.json")
+    filepath = os.path.join(r"C:\Users\shris\OneDrive\Desktop\Shubham\Tools in Data Science\project 1\longposts", f"{slug}.json")
     with open(filepath, "w", encoding="utf-8") as file:
         json.dump({"posts": all_posts}, file, indent=4)

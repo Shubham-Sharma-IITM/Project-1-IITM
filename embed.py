@@ -4,19 +4,32 @@ import requests
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
-from semantic_text_splitter import MarkdownSplitter
+# from semantic_text_splitter import MarkdownSplitter
+from langchain.text_splitter import MarkdownHeaderTextSplitter
 
-def get_chunks(file_path: str, chunk_size: int = 1000):
+
+# def get_chunks(file_path: str, chunk_size: int = 1000):
+#     with open(file_path, 'r', encoding='utf-8') as file:
+#         content = file.read()
+#     splitter = MarkdownSplitter(chunk_size)
+#     chunks = splitter.chunks(content)
+#     return chunks
+
+def get_chunks(file_path: str):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
-    splitter = MarkdownSplitter(chunk_size)
-    chunks = splitter.chunks(content)
-    return chunks
+
+    splitter = MarkdownHeaderTextSplitter(headers_to_split_on=[
+        ("#", "h1"),
+        ("##", "h2")
+    ])
+    docs = splitter.split_text(content)
+    return [doc.page_content for doc in docs]
 
 def get_embedding(text: str, model="text-embedding-3-small") -> list:
     url = "https://aipipe.org/openai/v1/embeddings"
     headers = {
-        "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIzZjEwMDAyNDJAZHMuc3R1ZHkuaWl0bS5hYy5pbiJ9.3vmzvsqUwc07G3-vsltLc2I5GiKrzp-3OFG8yEwMauY",
+        "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRpcHB5c2hhcm1hNjlAZ21haWwuY29tIn0.MLE81YWPgqvaWXFkXL6S5PEXjMlJIEXqui9DUbH0x78",
         "Content-Type": "application/json"
     }
     data = {
@@ -27,10 +40,9 @@ def get_embedding(text: str, model="text-embedding-3-small") -> list:
     if response.status_code != 200:
         raise Exception(f"Embedding failed: {response.text}")
     resp_json = response.json()
-    print(resp_json["data"][0]["embedding"])
     return resp_json["data"][0]["embedding"]
 
-markdown_dir = Path(r"C:\Users\shris\OneDrive\Desktop\Shubham\Tools in Data Science\project 1\markdowns")
+markdown_dir = Path(r"C:\Users\shris\OneDrive\Desktop\Shubham\Tools in Data Science\project 1\final-markdowns-for-embedding")
 files = [*markdown_dir.glob("*.md"), *markdown_dir.rglob("*.md")]
 all_chunks = []
 all_embeddings = []
@@ -56,5 +68,5 @@ with tqdm(total=total_chunks, desc="Processing embeddings") as pbar:
                 pbar.update(1)
                 continue
 
-np.savez_compressed("embeddings.npz", chunks=all_chunks, embeddings=all_embeddings)
+np.savez_compressed("embeddingsss.npz", chunks=all_chunks, embeddings=all_embeddings)
 

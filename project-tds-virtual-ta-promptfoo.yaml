@@ -1,9 +1,9 @@
 description: "TDS Virtual TA Project Sample (but not the actual evaluation) Questions"
 
 providers:
-  - id: https
+  - id: http
     config:
-      url: https://app.example.com/api/ # Replace this with your API endpoint
+      url: http://localhost:8000/api/ # Replace this with your API endpoint
       method: POST
       headers:
         Content-Type: application/json

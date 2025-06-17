@@ -41,9 +41,11 @@ def extract_image_urls(html):
     soup = BeautifulSoup(html, 'html.parser')
     image_urls = []
     for img in soup.find_all('img'):
+        print(img)
         src = img.get('src', '')
         if 'user_avatar' not in src and 'emoji' not in src:
             image_urls.append(src)
+    print(image_urls)
     return image_urls
 
 # 4. Download image from URL
@@ -112,5 +114,5 @@ def process_folder(folder_path, download_dir='downloaded_images'):
 
 # 7. Run the script
 if __name__ == "__main__":
-    folder_path = r"C:\Users\shris\OneDrive\Desktop\Shubham\Tools in Data Science\project 1\posts-cleaned\New Folder\New Folder"
+    folder_path = r"C:\Users\shris\OneDrive\Desktop\Shubham\Tools in Data Science\project 1\longposts"
     process_folder(folder_path)
