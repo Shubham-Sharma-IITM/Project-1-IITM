@@ -132,5 +132,6 @@ async def receive_question(data: RequestData):
     question_embedding = get_question_embedding(full_query)
     top_chunks = match_question_embedding(question_embedding, chunk_data, top_k=3)
     answer = generate_answer_from_chunks(full_query, top_chunks)
+    print(answer)
     links = extract_chunk_info(top_chunks)
     return AnswerResponse(answer=answer, links=links)
