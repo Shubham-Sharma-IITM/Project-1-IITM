@@ -77,4 +77,4 @@ tests:
 writeLatestResults: true
 
 commandLineOptions:
-  cache: true
+  cache: false

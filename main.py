@@ -69,7 +69,7 @@ def generate_answer_from_chunks(query: str, context_chunks: List[str]) -> str:
     context_text = "\n\n".join(context_chunks)
     print(context_chunks)
     prompt = (
-        f"{query} - Answer ONLY from these notes. Cite verbatim from notes if possible.\n\n{context_text}"
+        f"{query} - Answer ONLY from these notes. Cite verbatim from notes if possible. Think critically as to what is being ansked and how you can answer from the knowledge from these notes. \n\n{context_text}"
     )
     messages = [
         {"role": "system", "content": "You are a helpful assistant answering only from provided documentation. You respond with I don't know if you do not know the answer to the question"},
