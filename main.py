@@ -81,7 +81,7 @@ def generate_answer_from_chunks(query: str, context_chunks: List[str]) -> str:
         "temperature": 0.2,
         "max_tokens": 512
     }
-    response = requests.post(chat_url, headers=headers, json=payload)
+    response = requests.post(chat_url, headers=headers, json=payload, timeout=30.0)
     if response.status_code != 200:
         raise Exception(f"Chat failed: {response.text}")
     return response.json()["choices"][0]["message"]["content"].strip()
