@@ -67,6 +67,7 @@ def match_question_embedding(question_embedding: list, chunk_data: list, top_k: 
 
 def generate_answer_from_chunks(query: str, context_chunks: List[str]) -> str:
     context_text = "\n\n".join(context_chunks)
+    print(context_chunks)
     prompt = (
         f"{query} - Answer ONLY from these notes. Cite verbatim from notes if possible.\n\n{context_text}"
     )
@@ -103,6 +104,8 @@ def extract_chunk_info(chunks):
 async def receive_question(data: RequestData):
     question = data.question
     image_data = data.image
+    print(question)
+    print(image_data)
     context = ""
 
     if image_data:
@@ -123,6 +126,7 @@ async def receive_question(data: RequestData):
             raise HTTPException(status_code=500, detail=f"Image description failed: {response.text}")
         img_description = response.json()["choices"][0]["message"]["content"]
         context += f"Image Description: {img_description}\n"
+        print(context)
 
     full_query = context + question
     question_embedding = get_question_embedding(full_query)
