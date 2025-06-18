@@ -72,7 +72,7 @@ def generate_answer_from_chunks(query: str, context_chunks: List[str]) -> str:
         f"{query} - Answer ONLY from these notes with utmost accuracy. Cite verbatim from notes if possible.\n\n{context_text}"
     )
     messages = [
-        {"role": "system", "content": "You are a helpful assistant answering only from provided documentation. You respond with I don't know if you do not know the answer to the question"},
+        {"role": "system", "content": "You are a helpful assistant answering only from provided documentation. You respond with I don't know if you do not know the answer to the question, but before doing so check context again to be sure that you really do not know"},
         {"role": "user", "content": prompt}
     ]
     payload = {
